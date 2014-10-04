@@ -1,0 +1,6 @@
+sources/0505_loop_rel2.c:4.2-5.2: [ x in {0}, N in top ]
+sources/0505_loop_rel2.c:4.2-5.2: [ x in top, N in top ]
+sources/0505_loop_rel2.c:4.2-5.2: [ x in top, N in top ]
+sources/0505_loop_rel2.c:4.2-5.2: [ x in top, N in top ]
+sources/0505_loop_rel2.c:7.0-22: ERROR: assertion failure
+Output: [ N in top, x in top ]

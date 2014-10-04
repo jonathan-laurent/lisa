@@ -1,0 +1,2 @@
+sources/0602_rate_limiter.c:26.0-30: ERROR: assertion failure
+Output: [ D in [-oo;+oo], S in [-oo;+oo], X in [-oo;+oo], Y in [-128;128] ]

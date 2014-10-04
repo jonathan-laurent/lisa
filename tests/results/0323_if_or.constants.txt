@@ -1,0 +1,3 @@
+sources/0323_if_or.c:3.22-34: [ x in top, y in top ]
+sources/0323_if_or.c:4.7-19: [ x in top, y in top ]
+Output: [ x in top, y in top ]

@@ -1,0 +1,2 @@
+sources/0507_loop_limit2.c:6.0-9: [ x in [0;+oo] ]
+Output: [ N in [0;1000], x in [0;+oo] ]

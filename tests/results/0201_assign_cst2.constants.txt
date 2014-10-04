@@ -1,0 +1,4 @@
+sources/0201_assign_cst2.c:2.0-11: [ x in top, y in top ]
+sources/0201_assign_cst2.c:4.0-11: [ x in {12}, y in top ]
+sources/0201_assign_cst2.c:7.0-11: [ x in {99}, y in {15} ]
+Output: [ x in {99}, y in {15} ]

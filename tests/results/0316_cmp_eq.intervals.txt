@@ -1,0 +1,2 @@
+sources/0316_cmp_eq.c:3.11-23: [ x in [15;20], y in [15;20] ]
+Output: [ x in [15;30], y in [10;20] ]

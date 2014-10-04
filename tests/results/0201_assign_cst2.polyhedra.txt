@@ -1,0 +1,4 @@
+sources/0201_assign_cst2.c:2.0-11: top
+sources/0201_assign_cst2.c:4.0-11: [|x-12=0|]
+sources/0201_assign_cst2.c:7.0-11: [|y-15=0; x-99=0|]
+Output: [|y-15=0; x-99=0|]

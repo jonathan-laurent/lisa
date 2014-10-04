@@ -1,0 +1,2 @@
+sources/0103_local.c:4.2-5.0: [ x in [12;12], y in [9;9] ]
+Output: [ x in [12;12] ]

@@ -1,0 +1,2 @@
+sources/0218_assign_rel.c:5.0-9: [|y-17=0|]
+Output: [|y-17=0; x-15=0|]

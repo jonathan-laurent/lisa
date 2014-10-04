@@ -1,0 +1,2 @@
+sources/0100_print_var.c:2.0-9: [|x-2=0|]
+Output: [|x-2=0|]

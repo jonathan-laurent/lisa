@@ -1,0 +1,1 @@
+Output: [ init in [0;1], x in [-oo;+oo] ]

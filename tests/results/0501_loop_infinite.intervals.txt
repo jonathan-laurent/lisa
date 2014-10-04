@@ -1,0 +1,5 @@
+sources/0501_loop_infinite.c:3.2-4.0: [ x in [0;0] ]
+sources/0501_loop_infinite.c:3.2-4.0: [ x in [0;0] ]
+sources/0501_loop_infinite.c:3.2-4.0: [ x in [0;0] ]
+sources/0501_loop_infinite.c:3.2-4.0: [ x in [0;0] ]
+Output: bottom

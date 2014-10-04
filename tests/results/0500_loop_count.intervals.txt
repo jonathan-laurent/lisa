@@ -1,0 +1,5 @@
+sources/0500_loop_count.c:3.2-4.2: [ x in [0;0] ]
+sources/0500_loop_count.c:3.2-4.2: [ x in [1;1] ]
+sources/0500_loop_count.c:3.2-4.2: [ x in [2;2] ]
+sources/0500_loop_count.c:3.2-4.2: [ x in [3;99] ]
+Output: [ x in [100;100] ]

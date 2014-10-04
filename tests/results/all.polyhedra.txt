@@ -1,0 +1,998 @@
+sources/0000_noinit_var.c
+
+ 1 int x;
+
+Output: top
+
+-------------------------------------
+
+sources/0001_noinit_2var.c
+
+ 1 int x;
+ 2 int y;
+
+Output: top
+
+-------------------------------------
+
+sources/0002_init_var.c
+
+ 1 int x = 0;
+
+Output: [|x=0|]
+
+-------------------------------------
+
+sources/0003_init_2var.c
+
+ 1 int x = 0;
+ 2 int y = 1;
+
+Output: [|y-1=0; x=0|]
+
+-------------------------------------
+
+sources/0004_init_2var2.c
+
+ 1 int x = 9, y = 12;
+
+Output: [|y-12=0; x-9=0|]
+
+-------------------------------------
+
+sources/0100_print_var.c
+
+ 1 int x = 2;
+ 2 print(x);
+
+sources/0100_print_var.c:2.0-9: [|x-2=0|]
+Output: [|x-2=0|]
+
+-------------------------------------
+
+sources/0101_print_2var.c
+
+ 1 int x = 3;
+ 2 int y = 15;
+ 3 print(y);
+
+sources/0101_print_2var.c:3.0-9: [|y-15=0|]
+Output: [|y-15=0; x-3=0|]
+
+-------------------------------------
+
+sources/0102_print_3var.c
+
+ 1 int x = 3;
+ 2 int y = 15;
+ 3 int z = 99;
+ 4 print(z,x);
+
+sources/0102_print_3var.c:4.0-11: [|z-99=0; x-3=0|]
+Output: [|z-99=0; y-15=0; x-3=0|]
+
+-------------------------------------
+
+sources/0103_local.c
+
+ 1 int x = 12;
+ 2 {
+ 3   int y = 9;
+ 4   print(x,y);
+ 5 }
+
+sources/0103_local.c:4.2-5.0: [|y-9=0; x-12=0|]
+Output: [|x-12=0|]
+
+-------------------------------------
+
+sources/0200_assign_cst.c
+
+ 1 int x;
+ 2 print(x);
+ 3 x = 12;
+ 4 print(x);
+ 5 x = 15;
+ 6 print(x);
+
+sources/0200_assign_cst.c:2.0-9: top
+sources/0200_assign_cst.c:4.0-9: [|x-12=0|]
+sources/0200_assign_cst.c:6.0-9: [|x-15=0|]
+Output: [|x-15=0|]
+
+-------------------------------------
+
+sources/0201_assign_cst2.c
+
+ 1 int x, y;
+ 2 print(x,y);
+ 3 x = 12;
+ 4 print(x,y);
+ 5 y = 15;
+ 6 x = 99;
+ 7 print(x,y);
+
+sources/0201_assign_cst2.c:2.0-11: top
+sources/0201_assign_cst2.c:4.0-11: [|x-12=0|]
+sources/0201_assign_cst2.c:7.0-11: [|y-15=0; x-99=0|]
+Output: [|y-15=0; x-99=0|]
+
+-------------------------------------
+
+sources/0202_assign_expr.c
+
+ 1 int x;
+ 2 x = 2 + 2;
+
+Output: [|x-4=0|]
+
+-------------------------------------
+
+sources/0203_assign_expr2.c
+
+ 1 int x,y;
+ 2 x = 12;
+ 3 y = 16;
+ 4 x = x + y + 2;
+ 5 print(x);
+
+sources/0203_assign_expr2.c:5.0-9: [|x-30=0|]
+Output: [|y-16=0; x-30=0|]
+
+-------------------------------------
+
+sources/0204_assign_rand.c
+
+ 1 int x;
+ 2 x = rand(1,99);
+ 3 print(x);
+
+sources/0204_assign_rand.c:3.0-9: [|-x+99>=0; x-1>=0|]
+Output: [|-x+99>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0205_assign_rand2.c
+
+ 1 int x;
+ 2 x = rand(10,-5);
+ 3 print(x);
+
+sources/0205_assign_rand2.c:3.0-9: bottom
+Output: bottom
+
+-------------------------------------
+
+sources/0206_assign_add.c
+
+ 1 int x;
+ 2 x = 2 + 5;
+
+Output: [|x-7=0|]
+
+-------------------------------------
+
+sources/0207_assign_add2.c
+
+ 1 int x; 
+ 2 x = rand(1,5) + rand (10,10);
+
+Output: [|-x+15>=0; x-11>=0|]
+
+-------------------------------------
+
+sources/0208_assign_add3.c
+
+ 1 int x;
+ 2 x = x + 2;
+
+Output: top
+
+-------------------------------------
+
+sources/0209_assign_neg.c
+
+ 1 int x;
+ 2 x = -9;
+
+Output: [|x+9=0|]
+
+-------------------------------------
+
+sources/0210_assign_neg2.c
+
+ 1 int x;
+ 2 x = -rand(-1,10);
+ 3 
+
+Output: [|-x+1>=0; x+10>=0|]
+
+-------------------------------------
+
+sources/0211_assign_sub.c
+
+ 1 int x;
+ 2 x = 999 - 1;
+
+Output: [|x-998=0|]
+
+-------------------------------------
+
+sources/0212_assign_sub2.c
+
+ 1 int x;
+ 2 x = rand(1,10) - rand(2,3);
+
+Output: [|-x+8>=0; x+2>=0|]
+
+-------------------------------------
+
+sources/0213_assign_mul.c
+
+ 1 int x; 
+ 2 x = 5 * 8;
+
+Output: [|x-40=0|]
+
+-------------------------------------
+
+sources/0214_assign_mul2.c
+
+ 1 int x;
+ 2 x = rand(1,3) * rand(2,9);
+
+Output: [|-x+27>=0; x-2>=0|]
+
+-------------------------------------
+
+sources/0215_assign_mul3.c
+
+ 1 int x;
+ 2 x = rand(-5,3) * rand(-1,10);
+
+Output: [|-x+30>=0; x+50>=0|]
+
+-------------------------------------
+
+sources/0216_assign_mul4.c
+
+ 1 int x;
+ 2 x = x * 0;
+
+Output: [|x=0|]
+
+-------------------------------------
+
+sources/0217_assign_copy.c
+
+ 1 int x;
+ 2 int y;
+ 3 x = 12;
+ 4 y = x;
+ 5 print(y);
+
+sources/0217_assign_copy.c:5.0-9: [|y-12=0|]
+Output: [|y-12=0; x-12=0|]
+
+-------------------------------------
+
+sources/0218_assign_rel.c
+
+ 1 int x;
+ 2 int y;
+ 3 x = 15;
+ 4 y = x + 2;
+ 5 print(y);
+
+sources/0218_assign_rel.c:5.0-9: [|y-17=0|]
+Output: [|y-17=0; x-15=0|]
+
+-------------------------------------
+
+sources/0219_assign_rel2.c
+
+ 1 int x = rand(1,5);
+ 2 int y = rand(2,10);
+ 3 int z = x + 2*y;
+
+Output: [|-x-2y+z=0; -x+5>=0; -y+10>=0; y-2>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0300_if_true.c
+
+ 1 int x = 1;
+ 2 if (1 <= 2) x = 9;
+
+Output: [|x-9=0|]
+
+-------------------------------------
+
+sources/0301_if_false.c
+
+ 1 int x = 1;
+ 2 if (1 >= 2) x = 9;
+
+Output: [|x-1=0|]
+
+-------------------------------------
+
+sources/0302_if_both.c
+
+ 1 int x = 1;
+ 2 if (rand(0,1) == 0) x = 9;
+
+Output: [|-x+9>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0303_if_else_true.c
+
+ 1 int x = 1;
+ 2 if (1 <= 2) x = 5; else x = 10;
+
+Output: [|x-5=0|]
+
+-------------------------------------
+
+sources/0304_if_else_false.c
+
+ 1 int x = 1;
+ 2 if (1 >= 2) x = 5; else x = 10;
+
+Output: [|x-10=0|]
+
+-------------------------------------
+
+sources/0305_if_else_both.c
+
+ 1 int x = 1;
+ 2 if (rand(0,1) == 0) x = 5; else x = 10;
+
+Output: [|-x+10>=0; x-5>=0|]
+
+-------------------------------------
+
+sources/0306_if_rel.c
+
+ 1 int x,y;
+ 2 if (rand(0,1) == 0) { x = 1; y = 3; }
+ 3 else { x = 2; y = 1; }
+
+Output: [|2x+y-5=0; -x+2>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0307_if_var.c
+
+ 1 int x = rand(-10,20);
+ 2 if (x >= 0) { print(x); }
+ 3 else { print(x); }
+
+sources/0307_if_var.c:2.14-24: [|-x+20>=0; x>=0|]
+sources/0307_if_var.c:3.7-17: [|-x-1>=0; x+10>=0|]
+Output: [|-x+20>=0; x+10>=0|]
+
+-------------------------------------
+
+sources/0308_if_var2.c
+
+ 1 int x = rand(-20,10);
+ 2 if (x < 2) x = -x;
+
+Output: [|-x+20>=0; x+1>=0|]
+
+-------------------------------------
+
+sources/0309_if_var_rel.c
+
+ 1 int x = rand(-10,25);
+ 2 int y = rand(-15,20);
+ 3 if (x >= y) x = y;
+
+Output: [|-x+y>=0; -y+20>=0; 7x-y+90>=0|]
+
+-------------------------------------
+
+sources/0310_cmp_le.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(15,30);
+ 3 if (x <= y) print(x,y);
+
+sources/0310_cmp_le.c:3.11-23: [|-x+20>=0; -x+y>=0; -y+30>=0; y-15>=0;
+                                 x-10>=0|]
+Output: [|-x+20>=0; -y+30>=0; y-15>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0311_cmp_le2.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(8,17);
+ 3 if (x <= y) print(x,y);
+
+sources/0311_cmp_le2.c:3.11-23: [|-x+y>=0; -y+17>=0; x-10>=0|]
+Output: [|-x+20>=0; -y+17>=0; y-8>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0312_cmp_le3.c
+
+ 1 int y = rand(10,20);
+ 2 int x = rand(30,55);
+ 3 if (x <= y) print(x);
+
+sources/0312_cmp_le3.c:3.11-21: bottom
+Output: [|-x+55>=0; -y+20>=0; y-10>=0; x-30>=0|]
+
+-------------------------------------
+
+sources/0313_cmp_lt.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(5,15);
+ 3 if (x < y) print(x,y);
+
+sources/0313_cmp_lt.c:3.10-22: [|-x+y-1>=0; -y+15>=0; x-10>=0|]
+Output: [|-x+20>=0; -y+15>=0; y-5>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0314_cmp_ge.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(15,30);
+ 3 if (x >= y) print(x,y);
+
+sources/0314_cmp_ge.c:3.11-23: [|-x+20>=0; y-15>=0; x-y>=0|]
+Output: [|-x+20>=0; -y+30>=0; y-15>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0315_cmp_gt.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(15,30);
+ 3 if (x > y) print(x,y);
+
+sources/0315_cmp_gt.c:3.10-22: [|-x+20>=0; y-15>=0; x-y-1>=0|]
+Output: [|-x+20>=0; -y+30>=0; y-15>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0316_cmp_eq.c
+
+ 1 int x = rand(15,30);
+ 2 int y = rand(10,20);
+ 3 if (x == y) print(x,y);
+
+sources/0316_cmp_eq.c:3.11-23: [|-x+y=0; -x+20>=0; x-15>=0|]
+Output: [|-x+30>=0; -y+20>=0; y-10>=0; x-15>=0|]
+
+-------------------------------------
+
+sources/0317_cmp_eq2.c
+
+ 1 int x = rand(15,20);
+ 2 int y = rand(25,30);
+ 3 if (x == y) print(x,y);
+
+sources/0317_cmp_eq2.c:3.11-23: bottom
+Output: [|-x+20>=0; -y+30>=0; y-25>=0; x-15>=0|]
+
+-------------------------------------
+
+sources/0318_cmp_ne.c
+
+ 1 int x = rand(10,15);
+ 2 int y = rand(10,15);
+ 3 if (x != y) print(x,y);
+
+sources/0318_cmp_ne.c:3.11-23: [|-x-y+29>=0; -x+15>=0; -y+15>=0; y-10>=0;
+                                 x-10>=0; x+y-21>=0|]
+Output: [|-x+15>=0; -y+15>=0; y-10>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0319_cmp_ne.c
+
+ 1 int x = rand(10,15);
+ 2 int y = 10;
+ 3 if (x != y) print(x,y);
+
+sources/0319_cmp_ne.c:3.11-23: [|y-10=0; -x+15>=0; x-11>=0|]
+Output: [|y-10=0; -x+15>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0320_cmp_eq_ne.c
+
+ 1 int x = rand(10,15);
+ 2 int y = 10;
+ 3 if (x == y) print(x,y);
+ 4 else print(x,y);
+ 5 
+
+sources/0320_cmp_eq_ne.c:3.11-4.0: [|y-10=0; x-10=0|]
+sources/0320_cmp_eq_ne.c:4.4-16: [|y-10=0; -x+15>=0; x-11>=0|]
+Output: [|y-10=0; -x+15>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0321_cmp_rel.c
+
+ 1 int x = rand(10,20);
+ 2 int y = x;
+ 3 if (x >= 15) { print(y); }
+
+sources/0321_cmp_rel.c:3.15-25: [|-y+20>=0; y-15>=0|]
+Output: [|-x+y=0; -x+20>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0322_if_and.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(30,40);
+ 3 if (x>=15 && y>=35) { print(x,y); }
+ 4 else { print(x,y); }
+
+sources/0322_if_and.c:3.22-34: [|-x+20>=0; -y+40>=0; y-35>=0; x-15>=0|]
+sources/0322_if_and.c:4.7-19: [|-x-y+54>=0; -x+20>=0; -y+40>=0; y-30>=0;
+                                x-10>=0|]
+Output: [|-x+20>=0; -y+40>=0; y-30>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0323_if_or.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(30,40);
+ 3 if (x>=15 || y>=35) { print(x,y); }
+ 4 else { print(x,y); }
+
+sources/0323_if_or.c:3.22-34: [|-x+20>=0; -y+40>=0; y-30>=0; x-10>=0;
+                                x+y-45>=0|]
+sources/0323_if_or.c:4.7-19: [|-x+14>=0; -y+34>=0; y-30>=0; x-10>=0|]
+Output: [|-x+20>=0; -y+40>=0; y-30>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0324_if_not.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(30,40);
+ 3 if (!(x>=15) || y>=35) { print(x,y); }
+ 4 else { print(x,y); }
+
+sources/0324_if_not.c:3.25-37: [|-5x+6y-110>=0; -x+20>=0; -y+40>=0; y-30>=0;
+                                 x-10>=0|]
+sources/0324_if_not.c:4.7-19: [|-x+20>=0; -y+34>=0; y-30>=0; x-15>=0|]
+Output: [|-x+20>=0; -y+40>=0; y-30>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0325_if_bool.c
+
+ 1 int x = rand(10,20);
+ 2 int y = rand(10,20);
+ 3 if (x<=15 && y>=15 || x>=15 && y<=15) { print(x,y); }
+ 4 else { print(x,y); }
+
+sources/0325_if_bool.c:3.40-52: [|-x-y+35>=0; -x+20>=0; -y+20>=0; y-10>=0;
+                                  x-10>=0; x+y-25>=0|]
+sources/0325_if_bool.c:4.7-19: [|-x+20>=0; -x+y+4>=0; -y+20>=0; y-10>=0;
+                                 x-y+4>=0; x-10>=0|]
+Output: [|-x+20>=0; -y+20>=0; y-10>=0; x-10>=0|]
+
+-------------------------------------
+
+sources/0400_assert_true.c
+
+ 1 int x = 2;
+ 2 assert(x>=1);
+
+Output: [|x-2=0|]
+
+-------------------------------------
+
+sources/0401_assert_false.c
+
+ 1 int x = 9;
+ 2 assert (x < 5);
+
+sources/0401_assert_false.c:2.0-15: ERROR: assertion failure
+Output: bottom
+
+-------------------------------------
+
+sources/0402_assert_both.c
+
+ 1 int x = rand (-5,10);
+ 2 assert(x >= 0);
+ 3 assert(x > 0);
+ 4 
+
+sources/0402_assert_both.c:2.0-15: ERROR: assertion failure
+sources/0402_assert_both.c:3.0-14: ERROR: assertion failure
+Output: [|-x+10>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0403_assert_both2.c
+
+ 1 int x = rand (-5,10);
+ 2 assert(x > 0);
+ 3 assert(x >= 0);
+
+sources/0403_assert_both2.c:2.0-14: ERROR: assertion failure
+Output: [|-x+10>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0404_assert_rel.c
+
+ 1 int x,y;
+ 2 if (rand(0,1)==0) { x = 1; y = 1; }
+ 3 else { x = 3 ; y = 3; }
+ 4 assert(x==y);
+
+Output: [|-x+y=0; -x+3>=0; x-1>=0|]
+
+-------------------------------------
+
+sources/0500_loop_count.c
+
+ 1 int x = 0;
+ 2 while (x < 100) {
+ 3   print(x);
+ 4   x = x + 1;
+ 5 }
+
+sources/0500_loop_count.c:3.2-4.2: [|x=0|]
+sources/0500_loop_count.c:3.2-4.2: [|x-1=0|]
+sources/0500_loop_count.c:3.2-4.2: [|x-2=0|]
+sources/0500_loop_count.c:3.2-4.2: [|-x+99>=0; x-3>=0|]
+Output: [|x-100=0|]
+
+-------------------------------------
+
+sources/0501_loop_infinite.c
+
+ 1 int x = 0;
+ 2 while (x < 10) {
+ 3   print(x);
+ 4 }
+
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+Output: bottom
+
+-------------------------------------
+
+sources/0502_loop_infinite2.c
+
+ 1 int x = 0;
+ 2 while (x < 100) {
+ 3   print(x);
+ 4   x = x - 1;
+ 5 }
+
+sources/0502_loop_infinite2.c:3.2-4.2: [|x=0|]
+sources/0502_loop_infinite2.c:3.2-4.2: [|x+1=0|]
+sources/0502_loop_infinite2.c:3.2-4.2: [|x+2=0|]
+sources/0502_loop_infinite2.c:3.2-4.2: [|-x-3>=0|]
+Output: bottom
+
+-------------------------------------
+
+sources/0503_loop_nondet.c
+
+ 1 int x = 0;
+ 2 while (rand(0,1) == 0) {
+ 3   print(x);
+ 4   x = x + 1;
+ 5 }
+
+sources/0503_loop_nondet.c:3.2-4.2: [|x=0|]
+sources/0503_loop_nondet.c:3.2-4.2: [|x-1=0|]
+sources/0503_loop_nondet.c:3.2-4.2: [|x-2=0|]
+sources/0503_loop_nondet.c:3.2-4.2: [|x-3>=0|]
+Output: [|x>=0|]
+
+-------------------------------------
+
+sources/0504_loop_rel.c
+
+ 1 int N = rand(0,1000);
+ 2 int x = 0;
+ 3 while (x < N) {
+ 4   print(x,N);
+ 5   x = x + 1;
+ 6 }
+ 7 assert(x==N);
+
+sources/0504_loop_rel.c:4.2-5.2: [|x=0; -N+1000>=0; N-1>=0|]
+sources/0504_loop_rel.c:4.2-5.2: [|x-1=0; -N+1000>=0; N-2>=0|]
+sources/0504_loop_rel.c:4.2-5.2: [|x-2=0; -N+1000>=0; N-3>=0|]
+sources/0504_loop_rel.c:4.2-5.2: [|-N+1000>=0; x-3>=0; N-x-1>=0|]
+Output: [|-N+x=0; -N+1000>=0; N>=0|]
+
+-------------------------------------
+
+sources/0505_loop_rel2.c
+
+ 1 int N = rand(0,1000);
+ 2 int x = 0;
+ 3 while (x < N) {
+ 4   print(x,N);
+ 5   x = x + rand(0,3);
+ 6 }
+ 7 assert(x>=N && x<N+3);
+
+sources/0505_loop_rel2.c:4.2-5.2: [|x=0; -N+1000>=0; N-1>=0|]
+sources/0505_loop_rel2.c:4.2-5.2: [|-N+1000>=0; -x+3>=0; x>=0; N-x-1>=0|]
+sources/0505_loop_rel2.c:4.2-5.2: [|-N+1000>=0; -x+6>=0; x>=0; N-x-1>=0|]
+sources/0505_loop_rel2.c:4.2-5.2: [|-N+1000>=0; x>=0; N-x-1>=0|]
+Output: [|-N+1000>=0; -N+x>=0; N-x+2>=0; 3N-x>=0|]
+
+-------------------------------------
+
+sources/0506_loop_limit.c
+
+ 1 int x = 0;
+ 2 while (rand(0,1)==0) {
+ 3   if (x < 10000) x = x + 1;
+ 4 }
+ 5 print(x);
+
+sources/0506_loop_limit.c:5.0-9: [|x>=0|]
+Output: [|x>=0|]
+
+-------------------------------------
+
+sources/0507_loop_limit2.c
+
+ 1 int x = 0;
+ 2 int N = rand(0,1000);
+ 3 while (rand(0,1)==0) {
+ 4   if (x < N) x = x + 1;
+ 5 }
+ 6 print(x);
+
+sources/0507_loop_limit2.c:6.0-9: [|-x+1000>=0; x>=0|]
+Output: [|-N+1000>=0; x>=0; N-x>=0|]
+
+-------------------------------------
+
+sources/0508_loop_init.c
+
+ 1 int init;
+ 2 int x;
+ 3 
+ 4 init = 0;
+ 5 while (rand(0,1)==0) {
+ 6   if (init == 0) {
+ 7     x = 0;
+ 8     init = 1;
+ 9   }
+10   else {
+11     x = x + 1;
+12   }
+13   assert(x >= 0);
+14 }
+
+Output: [|-init+1>=0; init>=0|]
+
+-------------------------------------
+
+sources/0509_loop_nested.c
+
+ 1 int i=0, j=0;
+ 2 
+ 3 while (i < 1000) {
+ 4   j = 0;
+ 5   while (j < i) {
+ 6     j = j + 1;
+ 7   }
+ 8   i = i + 1;
+ 9 }
+
+Output: [|j-999=0; i-1000=0|]
+
+-------------------------------------
+
+sources/0510_loop_nested2.c
+
+ 1 int i,j;
+ 2 
+ 3 i = 0;
+ 4 while (i < 1000) {
+ 5   j = 0;
+ 6   while (j < i) {
+ 7     j = j + 1;
+ 8   }
+ 9   i = i + 1;
+10 }
+
+Output: [|j-999=0; i-1000=0|]
+
+-------------------------------------
+
+sources/0600_bubble_sort.c
+
+ 1 // Example from Cousot Habwachs POPL 1978
+ 2 
+ 3 // Bubble sort, where array  operations are abstracted away
+ 4 // to get a non-deterministic scalar program
+ 5 
+ 6 // expected results:
+ 7 // - with polyhedra, no assertion failure (proof of absence of array overflow)
+ 8 // - with intervals, assertion failure
+ 9 
+10 int B,J,T;
+11 int N = rand(0,100000);  // array size
+12 
+13 B = N;
+14 while (B >= 1) {
+15   J = 1;
+16   T = 0;
+17   while (J <= B-1) {
+18 
+19     // array bound-check 
+20     assert(1 <= J && J <= N);
+21     assert(1 <= (J+1) && (J+1) <= N);
+22 
+23     // the non-deterministic test models comparing TAB[J] and TAB[J+1]
+24     if (rand(0,1)==0) {
+25       // where, we would exchange TAB[J] and TAB[J+1];
+26       T = J;
+27     }
+28 
+29     J = J + 1;
+30   }
+31   B = T;
+32 }
+
+Output: [|B=0; -N+100000>=0; N>=0|]
+
+-------------------------------------
+
+sources/0601_heap_sort.c
+
+ 1 // Example from Cousot Habwachs POPL 1978
+ 2 
+ 3 // Heap sort, where array  operations are abstracted away
+ 4 // to get a non-deterministic scalar program
+ 5 
+ 6 // expected results: with polyhedra, no assertion failure
+ 7 
+ 8 int L,R,I,J;
+ 9 int N = rand(1,100000);  // array size
+10 
+11 L = N/2 + 1;
+12 R = N;
+13 
+14 if (L >= 2) {
+15   L = L - 1; 
+16   // model the assignment "K = TAB[L]"
+17   assert(1 <= L && L <= N);
+18 }
+19 else {
+20   // model the assignments "K = TAB[R]; TAB[R] = TAB[1]"
+21    assert(1 <= R && R <= N);
+22    assert(1 <= 1 && 1 <= N);
+23    R = R - 1;
+24 }
+25 
+26 while (R >= 2) {
+27   I = L;
+28   J = 2*I;
+29 
+30   while (J <= R && rand(0,1)==0) {
+31     if (J <= R-1) {
+32       // model the comparison "TAB[J] < TAB[J+1]"
+33       assert(1 <= J && J <= N);
+34       assert(1 <= (J+1) && (J+1) <= N);
+35       if (rand(0,1)==0) { J = J + 1; }
+36     }
+37 
+38     // model the comparison "K < TAB[J]"
+39     assert(1 <= J && J <= N);
+40     if (rand(0,1)==0) {
+41       // model the assignment "TAB[I] = TAB[J]"
+42       assert(1 <= I && I <= N);
+43       assert(1 <= J && J <= N);   
+44       I = J;
+45       J = 2*J;
+46     }
+47   }
+48 
+49   // model the assignment "TAB[I] = K"
+50   assert(1 <= I && I <= N);
+51 
+52   if (L >= 2) {
+53     L = L - 1; 
+54     // model the assignment "K = TAB[L]"
+55     assert(1 <= L && L <= N);
+56   }
+57   else {
+58     // model the assignments "K = TAB[R]; TAB[R] = TAB[1]"
+59     assert(1 <= R && R <= N);
+60     assert(1 <= 1 && 1 <= N);
+61     R = R - 1;
+62   }
+63 
+64   // model the assignment "TAB[1] = K"
+65   assert(1 <= 1 && 1 <= N);
+66 }
+
+Output: [|-99999L+49999R+99999>=0; -2L+N+1>=0; -R+1>=0; L-1>=0|]
+
+-------------------------------------
+
+sources/0602_rate_limiter.c
+
+ 1 // Example from Miné HOSC 2006
+ 2 
+ 3 // Rate limiter: at each loop iteration, a new input is fetched (X) and
+ 4 // a new output (Y) is computed; Y tries to follow X but is limited to
+ 5 // change no more that a given slope (D) in absolute value
+ 6 
+ 7 // To prove that the assertion holds, this version needs the polyhedra
+ 8 // domain and an unrolling factor of at least 6
+ 9 
+10 int X;  // input
+11 int Y;  // output
+12 int S;  // last output
+13 int D;  // maximum slope;
+14 
+15 Y = 0;
+16 while (rand(0,1)==1) {
+17   X = rand(-128,128);
+18   D = rand(0,16);
+19   S = Y;
+20   int R = X - S; // current slope
+21   Y = X;
+22   if (R <= -D)     Y = S - D; // slope too small
+23   else if (R >= D) Y = S + D; // slope too large
+24 }
+25 
+26 assert(Y >= -128 && Y <= 128);
+
+sources/0602_rate_limiter.c:26.0-30: ERROR: assertion failure
+Output: [|-Y+128>=0; Y+128>=0|]
+
+-------------------------------------
+
+sources/0603_rate_limiter2.c
+
+ 1 // This version is similar to the previous one, but the assertion is checked
+ 2 // inside the loop
+ 3 // No unrolling is necessary in this version!
+ 4 
+ 5 int X;  // input
+ 6 int Y;  // output
+ 7 int S;  // last output
+ 8 int D;  // maximum slope;
+ 9 
+10 Y = 0;
+11 while (rand(0,1)==1) {
+12   X = rand(-128,128);
+13   D = rand(0,16);
+14   S = Y;
+15   int R = X - S; // current slope
+16   Y = X;
+17   if (R <= -D)     Y = S - D; // slope too small
+18   else if (R >= D) Y = S + D; // slope too large
+19 
+20   assert(Y >= -128 && Y <= 128);
+21 }
+
+Output: [|-Y+128>=0; Y+128>=0|]
+
+-------------------------------------
+

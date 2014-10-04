@@ -1,0 +1,4 @@
+sources/0200_assign_cst.c:2.0-9: top
+sources/0200_assign_cst.c:4.0-9: [|x-12=0|]
+sources/0200_assign_cst.c:6.0-9: [|x-15=0|]
+Output: [|x-15=0|]

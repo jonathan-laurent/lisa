@@ -1,0 +1,2 @@
+sources/0204_assign_rand.c:3.0-9: [|-x+99>=0; x-1>=0|]
+Output: [|-x+99>=0; x-1>=0|]

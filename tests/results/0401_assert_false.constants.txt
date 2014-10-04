@@ -1,0 +1,2 @@
+sources/0401_assert_false.c:2.0-15: ERROR: assertion failure
+Output: bottom

@@ -1,0 +1,2 @@
+sources/0321_cmp_rel.c:3.15-25: [ y in [10;20] ]
+Output: [ x in [10;20], y in [10;20] ]

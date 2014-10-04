@@ -1,0 +1,2 @@
+sources/0506_loop_limit.c:5.0-9: [ x in top ]
+Output: [ x in top ]

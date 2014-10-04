@@ -1,0 +1,3 @@
+sources/0320_cmp_eq_ne.c:3.11-4.0: [ x in {10}, y in {10} ]
+sources/0320_cmp_eq_ne.c:4.4-16: [ x in top, y in {10} ]
+Output: [ x in top, y in {10} ]

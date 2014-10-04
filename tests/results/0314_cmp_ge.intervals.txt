@@ -1,0 +1,2 @@
+sources/0314_cmp_ge.c:3.11-23: [ x in [15;20], y in [15;20] ]
+Output: [ x in [10;20], y in [15;30] ]

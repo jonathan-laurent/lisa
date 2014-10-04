@@ -1,0 +1,2 @@
+sources/0203_assign_expr2.c:5.0-9: [ x in [30;30] ]
+Output: [ x in [30;30], y in [16;16] ]

@@ -1,0 +1,4 @@
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+Output: [ D in [-oo;+oo], S in [-oo;+oo], X in [-oo;+oo], Y in [-128;128] ]

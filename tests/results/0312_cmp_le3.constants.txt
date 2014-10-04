@@ -1,0 +1,2 @@
+sources/0312_cmp_le3.c:3.11-21: [ x in top ]
+Output: [ x in top, y in top ]

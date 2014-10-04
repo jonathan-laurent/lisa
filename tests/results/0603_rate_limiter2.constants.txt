@@ -1,0 +1,5 @@
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+sources/0603_rate_limiter2.c:20.2-21.0: ERROR: assertion failure
+Output: [ D in top, S in top, X in top, Y in top ]

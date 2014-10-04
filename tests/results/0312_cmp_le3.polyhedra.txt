@@ -1,0 +1,2 @@
+sources/0312_cmp_le3.c:3.11-21: bottom
+Output: [|-x+55>=0; -y+20>=0; y-10>=0; x-30>=0|]

@@ -1,0 +1,2 @@
+sources/0319_cmp_ne.c:3.11-23: [ x in top, y in {10} ]
+Output: [ x in top, y in {10} ]

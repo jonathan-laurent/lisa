@@ -1,0 +1,2 @@
+sources/0218_assign_rel.c:5.0-9: [ y in {17} ]
+Output: [ x in {15}, y in {17} ]

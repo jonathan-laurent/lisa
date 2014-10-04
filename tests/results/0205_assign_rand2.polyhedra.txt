@@ -1,0 +1,2 @@
+sources/0205_assign_rand2.c:3.0-9: bottom
+Output: bottom

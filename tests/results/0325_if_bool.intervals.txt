@@ -1,0 +1,3 @@
+sources/0325_if_bool.c:3.40-52: [ x in [10;20], y in [10;20] ]
+sources/0325_if_bool.c:4.7-19: [ x in [10;20], y in [10;20] ]
+Output: [ x in [10;20], y in [10;20] ]

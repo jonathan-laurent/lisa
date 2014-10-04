@@ -1,0 +1,6 @@
+sources/0504_loop_rel.c:4.2-5.2: [ x in [0;0], N in [1;1000] ]
+sources/0504_loop_rel.c:4.2-5.2: [ x in [1;1], N in [2;1000] ]
+sources/0504_loop_rel.c:4.2-5.2: [ x in [2;2], N in [3;1000] ]
+sources/0504_loop_rel.c:4.2-5.2: [ x in [3;999], N in [4;1000] ]
+sources/0504_loop_rel.c:7.0-13: ERROR: assertion failure
+Output: [ N in [0;1000], x in [0;1000] ]

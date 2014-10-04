@@ -1,0 +1,3 @@
+sources/0307_if_var.c:2.14-24: [ x in top ]
+sources/0307_if_var.c:3.7-17: [ x in top ]
+Output: [ x in top ]

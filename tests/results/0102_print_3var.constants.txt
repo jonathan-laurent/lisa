@@ -1,0 +1,2 @@
+sources/0102_print_3var.c:4.0-11: [ z in {99}, x in {3} ]
+Output: [ x in {3}, y in {15}, z in {99} ]

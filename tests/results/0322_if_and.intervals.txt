@@ -1,0 +1,3 @@
+sources/0322_if_and.c:3.22-34: [ x in [15;20], y in [35;40] ]
+sources/0322_if_and.c:4.7-19: [ x in [10;20], y in [30;40] ]
+Output: [ x in [10;20], y in [30;40] ]

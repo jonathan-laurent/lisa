@@ -1,0 +1,2 @@
+sources/0403_assert_both2.c:2.0-14: ERROR: assertion failure
+Output: [ x in [1;10] ]

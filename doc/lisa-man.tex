@@ -1,0 +1,239 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1.0in]{geometry}
+\usepackage[french]{babel} 
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+
+
+\newcommand{\prog}[1]{{\tt#1}}
+\newcommand{\underscore}{$\_\,$}
+
+\begin{document}
+
+
+
+\title{Conception d'un analyseur statique simple}
+\author{Jonathan Laurent}
+\maketitle
+
+On décrit dans ce document les fonctionnalités et les caractéristiques techniques de l'analyseur statique \prog{lisa} ainsi que les choix d'implémentation qui ont été réalisés.
+
+\section{Présentation des fonctionnalités}
+
+
+\subsection{Lancement du programme et options}
+
+Pour compiler \prog{lisa}, il suffit d'utiliser la commande \prog{make}. La commande \prog{make test} permet de générer trois fichiers \prog{tests.\emph{domain}.txt} dans le répertoire \prog{tests} comparant pour chacun des tests fournis la sortie de \prog{lisa} ainsi que la sortie de référence. \prog{lisa} se lance avec la commande :
+
+\begin{center}\prog{./lisa [--DOMAIN] [OPTIONS] INPUT\underscore{}FILES}\end{center}
+
+où \prog{INPUT\underscore{}FILES} est une liste de fichiers sources à analyser et où \prog{DOMAIN} peut prendre les valeurs \prog{polyhedra} (par défault), \prog{consts} et \prog{intervals}. Les options principales incluent les paramètres d'analyse des boucles (cf. deuxième cours d'interprétation abstraite)
+
+\medskip
+
+\begin{center}\def\arraystretch{1.3}\begin{tabular}{llc}
+	Option & & Valeur de $n$ par défault \\
+	\hline
+   \prog{--widening-delay \emph{n}}  &  & 3 \\
+   \prog{--unrolling-factor \emph{n}}  &  & 6 \\
+   \prog{--decreasing-iterations \emph{n}}  &  & 3 \\
+
+\end{tabular}
+\end{center}
+
+\medskip
+
+ainsi que les options \prog{auto-phantom-vars} et \prog{--no-verbose-unrolled-statements} dont nous détaillerons ultérieurement l'utilisation.
+
+\subsection{Caractéristiques générales et fonctionnalités}
+
+\prog{lisa} implémente toutes les fonctionnalités minimales imposées dans les consignes du projet, ainsi que : \medskip
+
+\begin{itemize}
+\item La gestion minimale des \textbf{variables locales}. \\
+Toutes les variables doivent cependant avoir un nom distinct, ce dont il est possible de s'assurer lors de la construction de l'arbre syntaxique.
+\item L'implémentation d'un mécanisme personnel permettant de trouver de \textbf{meilleurs invariants de boucle} avec le domaine \prog{polyhedra}, en générant automatiquement des variables fantômes.
+
+\end{itemize}
+
+\smallskip
+
+Les opérations de division et de modulo sur les entiers ne sont pas implémentées pour les domaines \prog{consts} et \prog{intervals}.
+
+\subsubsection{Déroulement de l'analyse et sortie du programme}
+
+La sortie de \prog{lisa} est très proche des sorties de références proposées avec le jeu de test : une ligne est affichée pour chaque instruction \prog{print} ou chaque assertion qui échoue, dans l'ordre de parcours de l'arbre de syntaxe abstraite. L'instruction \prog{print} utilisée sans arguments affiche tout le contexte local. L'état des variables globales à la fin du programme est également indiqué. Si la vérification d'une assertion échoue, une erreur est signalée mais l'assertion est supposée vraie pour la suite de l'analyse. C'est ainsi que le programme suivant provoque une seule erreur : 
+
+
+\medskip
+
+\lstset{language=C++}
+\begin{footnotesize}
+
+\begin {lstlisting}[basicstyle=\ttfamily, frame=lines] 
+int x;
+assert(X > 0);
+assert(x >= 0);
+
+\end{lstlisting}
+\end{footnotesize}
+\medskip
+
+
+Les instructions \prog{print} et \prog{assert} qui se trouvent dans le corps d'une boucle sont éxecutées pour les $n$ premières itérations, où $n$ est l'argument de l'option \prog{unrolling-factor}, puis dans l'environnement constitué de l'invariant de boucle à partir de l'itération $n + 1$. Il est possible de désactiver les $n$ premiers affichages avec l'option \prog{no-verbose-unrolled-statements}, au risque d'ignorer des violations d'assertions sur les premières itérations d'une boucle. Par exemple, \prog{./lisa --no-verbose-unrolled-statements --unrolling-factor 1} ne signale aucune erreur sur le programme suivant :
+
+\medskip
+
+
+
+\lstset{language=C++}
+\begin{footnotesize}
+
+\begin {lstlisting}[basicstyle=\ttfamily, frame=lines] 
+int x = rand(1, 100);
+while(x <= 100) {
+  x = x + 1;
+  assert(x >= 3);
+ }
+
+\end{lstlisting}
+\end{footnotesize}
+\medskip
+
+ En effet, l'erreur levée lors du premier passage dans le corps de la boucle n'est pas signalée, et l'assertion est supposée vraie pour le reste de l'éxecution.
+
+
+\subsubsection{L'option \prog{--auto-phantom-vars}}
+
+Reprenons un programme donné comme exemple dans le deuxième cours d'interprétation abstraite :
+\smallskip
+
+\lstset{language=C++}
+\begin{footnotesize}
+
+\begin {lstlisting}[basicstyle=\ttfamily, frame=lines] 
+int v = 1;
+while(v <= 50) {
+  v = v + 2;
+ }
+
+\end{lstlisting}
+\end{footnotesize}
+\medskip
+
+Sur cet exemple, on trouve $v \in [51; 52]$ en utilisant le domaine \prog{intervals} et en calculant au moins une itération décroissante. On ne fait pas mieux avec le domaine des polyhèdres, ce qui est assez décevant. Cependant, on peut obtenir avec ce dernier domaine un résultat bien plus satisfaisant en modifiant légèrement notre programme :
+
+\medskip
+
+\lstset{language=C++}
+\begin{footnotesize}
+
+\begin {lstlisting}[basicstyle=\ttfamily, frame=lines] 
+int v = 1;
+int i = 0
+while(v <= 50) {
+  v = v + 2;
+  i = i + 1;
+ }
+
+\end{lstlisting}
+\end{footnotesize}
+\medskip
+
+Ici, on trouve bien $v=51$. En effet, l'invariant de boucle $v - 2i = 1$ est inféré ; de surcroît, $i$ est facile à estimer exactement à l'aide d'une itération décroissante car il augmente par pas de $1$.
+Plus généralement, l'option \prog{--auto-phantom-vars} permet d'insérer automatiquement de tels compteurs de boucle, afin de donner la possibilité à la bibliothèque Apron de trouver de meilleurs invariants. Cela est réalisé de manière transparente, en modifiant directement l'arbre de syntaxte abstraite (cf. \prog{ast\underscore{}transformations.ml}).
+
+
+
+\section{Caractéristiques techniques et détails d'implémentation}
+
+
+\subsection{Les interfaces \prog{Value\underscore{}domain} et \prog{Environment\underscore{}domain}}
+
+Les interfaces proposées lors du deuxième cours d'interprétation abstraite ont été utilisées, et elles aident à écrire facilement un code élégant et générique. L'interface \prog{Value\underscore{}domain.S} comprend en particulier deux fonctions \prog{assume\underscore{}leq} et \prog{assume\underscore{}gt} de signature \begin{center}\prog{t -> t -> t * t}\end{center} Toute implémentation doit vérifier
+
+\begin{center}\prog {assume\underscore{}leq} $a_1$ $a_2$ $= (a_1', a_2')$ \end{center}
+où 
+
+$$ \begin{array}{l}
+a_1' = \alpha\left(\{x \in \gamma(a_1) \,|\; \exists \,y \in \gamma(a_2), \;x \leq  y\}\right) \\
+a_2' = \alpha\left(\{y \in \gamma(a_2) \,|\; \exists \,x \in \gamma(a_1), \;x \leq  y\}\right) \\
+\end{array} $$
+
+\medskip
+et il en est de même pour \prog{assume\underscore{}gt} avec l'inégalité stricte $>$. Intuitivement, ces deux fonctions servent à \emph{raffiner} deux valeurs abstraites en tenant compte d'une inégalité sur leurs représentants. L'interface \prog{Environment\underscore{}domain.S} exporte également deux fonctions du même nom, mais dont la signature est différente : 
+
+\begin{center}\prog{t -> expr -> expr -> t}\end{center}
+
+Ici, toute implémentation doit garantir
+
+
+\begin{center}$ \mathbb{C}[e_1 \leq e_2 \;?] \,\rho \; \sqsubseteq\; \text{\prog{assume\underscore{}leq}} \; \rho \; e_1  \; e_2 $
+\end{center}
+
+et le membre de droite doit être de préférence le plus petit possible. Intuitivement, ces deux fonctions permettent de \emph{raffiner} un domaine d'environnement à partir d'une inégalité.
+
+\subsection{Le domaine \prog{Non\underscore{}relational}}
+
+Le foncteur \prog{Non\underscore{}relational} prend un module de type \prog{Value\underscore{}domain} et l'étend point par point. Dans le cas de l'opération \prog{widen}, on vérifie facilement que cette extension préserve l'impossibilité de construire des chaînes d'élargissement infinies strictement croissantes. Les implémentations de \prog{assume\underscore{}leq} et \prog{assume\underscore{}gt} sont les seules qui méritent d'être détaillées. \prog{assume\underscore{}leq} $\rho$ $e_1$ $e_2$ ne raffine la valeur d'une variable que si elle est seule d'un côté de l'inégalité. Si aucun des deux côtés n'est occupé par une variable, \prog{assume\underscore{}leq} $\rho$ $e_1$ $e_2$ retourne $\rho$ ou $\bot$. Ce comportement n'est pas optimal pour gérer des situations du type \begin{center}\prog{if(x + y <= z + t) \{...\}} \end{center}
+
+Une extension possible serait d'appliquer des transformations linéaires à l'inégalité afin d'isoler le plus de variables possibles et d'\emph{apprendre} en conséquence.
+
+
+
+\subsection{Le domaine \prog{Intervals}}
+
+\prog{Intervals.Make} est un foncteur qui attend un module de type \prog{Intervals.PARAMS}. Ce motif est utilisé à plusieurs reprises dans le code de \prog{lisa}. Le paramètre le plus significatif est la liste des \emph{seuils d'élargissement}. Si cette liste est non vide, cela permet par exemple d'élargir à droite un intervalle par le plus petit entier de cette liste strictement supérieur à sa borne droite, plutôt que de faire sauter directement cette dernière à $+\infty$. La version actuelle de \prog{lisa} n'utilise pas cette possibilité, qui peut cependant être activée en changeant une ligne dans le code source.
+
+\medskip
+
+L'implémentation du domaine \prog{Intervals} se fait avec des bornes rationnelles, ce qui permet de l'étendre pour raisonner sur des programmes dont les variables sont à valeurs dans $\mathbb{Q}$ (paramètre \prog{integer\underscore{}mode = false} ou option \prog{-r} de \prog{lisa}). Sans parler de la division et du modulo, la différence majeure entre la gestion du cas des variables rationnelles et celui des variables entières réside dans l'implémentation de \prog{assume\underscore{}gt}. 
+
+\medskip
+
+Si les variables sont à valeurs entières, on peut utiliser la propriété $$ \forall x, y \in \mathbb{Z} : x < y \iff x + 1 \leq y $$
+
+pour déduire \prog{assume\underscore{}gt} de \prog{assume\underscore{}leq}. Dans le cas, des variables rationnelles, on pourrait vouloir se contenter de faire une sur-approximation de $>$ avec $\geq$, mais cela conduit à une perte de précision qui pose problème notamment dès lors que l'on veut gérer correctement le problème de l'égalité dans les conditions. La meilleure solution serait d'étendre notre domaine à des intervalles dont les bornes peuvent être ouvertes. Dans le cas où on refuse ce changement, il est au moins nécessaire de traiter des cas particuliers du type 
+
+\begin{center}$a < b \implies$ \prog{assume\underscore{}gt} $[b;\, b]$ $[a;\, b] = \left(\bot, \, [a;\, b]\right)$ \end{center}
+
+
+\subsection{Le domaine \prog{Polyhedra}}
+
+
+
+Le module \prog{Polyhedra} est une encapsulation directe de la bibliothèque Apron. Par chance, le binding OCaml d'Apron n'exporte que des structures de données persistantes, ce qui facilite considérablement le travail.
+
+\subsection{Le module \prog{Analysis}}
+
+L'analyse proprement dite du programme source est réalisée par le foncteur \prog{Analysis}, qui prend notamment pour paramètre le domaine d'environnement à utiliser. Les deux problèmes majeurs que posent ce module sont la gestion des boucles et des conditions. Toutes les optimisations suggérées dans le cours pour le traitement des boucles sont implémentées.
+
+\medskip
+
+La fonction \prog{process\underscore{}cond} prend pour argument un environnement et une expression $c$. Elle retourne deux environnements obtenus respectivement en ajoutant les contraintes $c$ et $\neg c$. Cette signature se prête très bien à une définition par récurrence sur $c$, les cas de base correspondant à une utilisation des fonctions \prog{assume\underscore{}leq} et \prog{assume\underscore{}gt}.
+
+
+
+\section{Résultats expérimentaux}
+
+Comme il est possible de le vérifier en exécutant \prog{make test}, \prog{lisa} donne les même sorties que le programme de référence sur tous les tests avec les domaines \prog{intervals} et \prog{consts}. Avec le domaine \prog{polyhedra}, on trouve deux différences :
+
+\begin{itemize}
+\item Le test \emph{0602\underscore{}rate\underscore{}limiter.c} réussit
+\item Le test \emph{0601\underscore{}heap\underscore{}sort.c} échoue
+\end{itemize}
+
+\medskip
+
+On note parfois des écarts de temps d'exécution étonnants entre deux programmes très proches. L'analyse du programme \emph{heap\underscore{}sort} est ainsi plus lente d'un ordre de grandeur 10 avec l'option \prog{--auto-phantom-vars}. L'utilisation du profiler \prog{gprof} semble indiquer que la bibliothèque Apron est en cause.
+
+\end{document}
+
+
+

@@ -1,0 +1,3 @@
+sources/0403_assert_both2.c:2.0-14: ERROR: assertion failure
+sources/0403_assert_both2.c:3.0-15: ERROR: assertion failure
+Output: [ x in top ]

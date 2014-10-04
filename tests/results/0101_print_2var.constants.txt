@@ -1,0 +1,2 @@
+sources/0101_print_2var.c:3.0-9: [ y in {15} ]
+Output: [ x in {3}, y in {15} ]

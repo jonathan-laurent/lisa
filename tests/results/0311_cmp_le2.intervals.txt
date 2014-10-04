@@ -1,0 +1,2 @@
+sources/0311_cmp_le2.c:3.11-23: [ x in [10;17], y in [10;17] ]
+Output: [ x in [10;20], y in [8;17] ]

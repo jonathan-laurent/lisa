@@ -1,0 +1,28 @@
+
+** Conflict (shift/reduce) in state 117.
+** Token involved: TOK_ELSE
+** This state is reached from file after reading:
+
+TOK_IF TOK_LPAREN expr TOK_RPAREN TOK_IF TOK_LPAREN expr TOK_RPAREN stat 
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+file 
+list(toplevel) TOK_EOF 
+toplevel list(toplevel) 
+stat 
+(?)
+
+** In state 117, looking ahead at TOK_ELSE, reducing production
+** stat -> TOK_IF TOK_LPAREN expr TOK_RPAREN stat 
+** is permitted because of the following sub-derivation:
+
+TOK_IF TOK_LPAREN expr TOK_RPAREN stat TOK_ELSE stat // lookahead token appears
+                                  TOK_IF TOK_LPAREN expr TOK_RPAREN stat . 
+
+** In state 117, looking ahead at TOK_ELSE, shifting is permitted
+** because of the following sub-derivation:
+
+TOK_IF TOK_LPAREN expr TOK_RPAREN stat 
+                                  TOK_IF TOK_LPAREN expr TOK_RPAREN stat . TOK_ELSE stat 

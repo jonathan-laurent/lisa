@@ -1,0 +1,5 @@
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+sources/0501_loop_infinite.c:3.2-4.0: [|x=0|]
+Output: bottom

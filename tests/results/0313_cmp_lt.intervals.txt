@@ -1,0 +1,2 @@
+sources/0313_cmp_lt.c:3.10-22: [ x in [10;14], y in [11;15] ]
+Output: [ x in [10;20], y in [5;15] ]

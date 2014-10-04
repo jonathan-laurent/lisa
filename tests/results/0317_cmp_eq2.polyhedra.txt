@@ -1,0 +1,2 @@
+sources/0317_cmp_eq2.c:3.11-23: bottom
+Output: [|-x+20>=0; -y+30>=0; y-25>=0; x-15>=0|]

@@ -1,0 +1,2 @@
+sources/0404_assert_rel.c:4.0-13: ERROR: assertion failure
+Output: [ x in [1;3], y in [1;3] ]

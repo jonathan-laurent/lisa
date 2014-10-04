@@ -1,0 +1,1 @@
+Output: [ x in [-oo;+oo], y in [-oo;+oo] ]
